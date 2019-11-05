@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundLayout">
+        <attr name="radius" format="dimension"/>
+        <attr name="corner">
+            <flag name="topLeft" value="1"/>
+            <flag name="topRight" value="2"/>
+            <flag name="bottomLeft" value="4"/>
+            <flag name="bottomRight" value="8"/>
+            <flag name="all" value="15"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="Banner">
+        <attr name="bRadius" format="dimension"/>
+        <attr name="bCorner">
+            <flag name="topLeft" value="1"/>
+            <flag name="topRight" value="2"/>
+            <flag name="bottomLeft" value="4"/>
+            <flag name="bottomRight" value="8"/>
+            <flag name="all" value="15"/>
+        </attr>
+        <attr name="bMarginLeftAndRight" format="dimension"/>
+        <attr name="bMarginLeft" format="dimension"/>
+        <attr name="bMarginRight" format="dimension"/>
+        <attr name="bMarginType">
+            <enum name="typeMargin" value="1"/>
+            <enum name="typePadding" value="2"/>
+        </attr>
+
+        <attr name="bTitleType">
+            <enum name="noTitle" value="0"/>
+            <enum name="onlyTitle" value="1"/>
+            <enum name="titleWithNum" value="2"/>
+            <enum name="titleWithCircle" value="3"/>
+            <enum name="onlyNum" value="4"/>
+            <enum name="onlyCircle" value="5"/>
+        </attr>
+
+        <attr name="bTitleIndicatorType">
+            <enum name="center" value="0"/>
+            <enum name="left" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+
+        <attr name="bTitleBg" format="reference"/>
+
+        <attr name="bTitleIndicatorSelector" format="reference"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="SquareImageView">
+        <attr name="imgCorner" format="dimension" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cc.bannerlib.RoundLayout android:id="@+id/round_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        tools:background="#FFCCCC"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_title_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/banner_title_bg_shape"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/ll_indicator_parent"
+            android:singleLine="true"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="发送发送成功第三方赶赴该公司的范德萨范德萨付水电费第三方各位风格沙发电视柜">
+
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/ll_indicator_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/ll_circle_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_num_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#FFFFFF"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="1/5"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</com.cc.bannerlib.RoundLayout>
