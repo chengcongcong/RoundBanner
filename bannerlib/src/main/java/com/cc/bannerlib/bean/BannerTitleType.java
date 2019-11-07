@@ -1,4 +1,4 @@
-package com.cc.bannerlib;
+package com.cc.bannerlib.bean;
 
 /**
  * Created on 2019-11-05  17:28

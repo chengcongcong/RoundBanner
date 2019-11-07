@@ -1,4 +1,4 @@
-package com.cc.bannerlib;
+package com.cc.bannerlib.bean;
 
 public enum BannerMarginType {
         //边距类型

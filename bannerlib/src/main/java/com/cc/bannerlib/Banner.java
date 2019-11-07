@@ -18,6 +18,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cc.bannerlib.bean.BannerBean;
+import com.cc.bannerlib.bean.BannerCorner;
+import com.cc.bannerlib.bean.BannerIndicatorType;
+import com.cc.bannerlib.bean.BannerMarginType;
+import com.cc.bannerlib.bean.BannerTitleType;
+import com.cc.bannerlib.listener.BImageLoader;
+import com.cc.bannerlib.listener.BannerClickListener;
+import com.cc.bannerlib.utils.SizeUtil;
+import com.cc.bannerlib.widget.BannerAdapter;
+import com.cc.bannerlib.widget.BannerViewPager;
+import com.cc.bannerlib.widget.RoundImageView;
+import com.cc.bannerlib.widget.RoundLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 

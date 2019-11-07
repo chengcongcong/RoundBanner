@@ -1,6 +1,4 @@
-package com.cc.bannerlib;
-
-import java.security.PrivateKey;
+package com.cc.bannerlib.bean;
 
 /**
  * Created on 2019-11-05  16:49

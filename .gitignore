@@ -11,3 +11,10 @@
 /build
 /captures
 .externalNativeBuild
+*.apk
+bin/
+out/
+app/release
+app/debug
+app/bugly
+/.idea/*

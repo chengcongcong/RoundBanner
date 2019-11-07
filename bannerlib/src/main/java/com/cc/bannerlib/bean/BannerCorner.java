@@ -1,4 +1,4 @@
-package com.cc.bannerlib;
+package com.cc.bannerlib.bean;
 
 public enum BannerCorner {
         //圆角位置

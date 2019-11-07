@@ -1,7 +1,6 @@
-package com.cc.bannerlib;
+package com.cc.bannerlib.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -9,18 +8,20 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.RelativeLayout;
+import android.view.View;
+
+import com.cc.bannerlib.bean.BannerCorner;
 
 /**
- * Created on 2019-11-04  11:16
+ * Created on 2019-11-05  14:07
  * Description:
  *
  * @author 644898042@qq.com
  */
-public class RoundLayout extends RelativeLayout {
+public class RoundImageView extends AppCompatImageView {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -30,40 +31,49 @@ public class RoundLayout extends RelativeLayout {
     private final int BOTTOM_RIGHT = BannerCorner.BOTTOM_RIGHT.getCornerValue();
     private final int ALL = BannerCorner.ALL.getCornerValue();
 
-    private int corner;
-    private float radius;
-
     private RectF roundRect;
     private Paint mPaint;
     private Paint mSecondPaint;
 
-    public RoundLayout(Context context) {
-        super(context);
-        init(context, null);
+    private float radius;
+    private int corner;
+
+    private float leftMargin;
+    private float rightMargin;
+
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
 
-    public RoundLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+    public void setCorner(int corner) {
+        this.corner = corner;
     }
 
-    public RoundLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public void setLeftMargin(float leftMargin) {
+        this.leftMargin = leftMargin;
+    }
+
+    public void setRightMargin(float rightMargin) {
+        this.rightMargin = rightMargin;
+    }
+
+    public RoundImageView(Context context) {
+        this(context, null);
+    }
+
+    public RoundImageView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public RoundLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs);
-    }
-
     private void init(Context context, AttributeSet attrs) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundLayout);
-        radius = typedArray.getDimension(R.styleable.RoundLayout_radius, 0);
-        corner = typedArray.getInt(R.styleable.RoundLayout_corner, ALL);
-        typedArray.recycle();
-
+        if (Build.VERSION.SDK_INT < 18) {
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
         roundRect = new RectF();
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -73,21 +83,14 @@ public class RoundLayout extends RelativeLayout {
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-        roundRect.set(0, 0, getWidth(), getHeight());
-        Log.e(TAG, "onLayout");
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        roundRect.set(leftMargin, 0, getWidth() - rightMargin, getHeight());
+        Log.e(TAG, "RoundImageView onLayout");
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        Log.e(TAG, "draw");
-    }
-
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        Log.e(TAG, "dispatchDraw");
+    protected void onDraw(Canvas canvas) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             canvas.saveLayer(roundRect, mPaint);
         } else {
@@ -126,19 +129,9 @@ public class RoundLayout extends RelativeLayout {
         } else {
             canvas.saveLayer(roundRect, mSecondPaint, Canvas.ALL_SAVE_FLAG);
         }
-        super.dispatchDraw(canvas);
+        super.onDraw(canvas);
         canvas.restore();
+        Log.e(TAG, "RoundImageView onDraw");
     }
 
-    public void setRadius(float radius) {
-        this.radius = radius;
-    }
-
-    public void setCorner(int corner) {
-        this.corner = corner;
-    }
-
-    public void refreshLayout() {
-        requestLayout();
-    }
 }

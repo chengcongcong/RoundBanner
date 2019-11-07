@@ -1,4 +1,4 @@
-package com.cc.bannerlib;
+package com.cc.bannerlib.utils;
 
 import android.content.Context;
 

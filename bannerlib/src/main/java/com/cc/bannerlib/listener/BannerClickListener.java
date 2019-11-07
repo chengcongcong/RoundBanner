@@ -1,4 +1,6 @@
-package com.cc.bannerlib;
+package com.cc.bannerlib.listener;
+
+import com.cc.bannerlib.bean.BannerBean;
 
 /**
  * Created on 2019-11-05  16:10

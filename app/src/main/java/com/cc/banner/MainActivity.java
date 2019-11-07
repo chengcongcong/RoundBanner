@@ -8,14 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.cc.bannerlib.BImageLoader;
+import com.cc.bannerlib.listener.BImageLoader;
 import com.cc.bannerlib.Banner;
-import com.cc.bannerlib.BannerBean;
-import com.cc.bannerlib.BannerClickListener;
-import com.cc.bannerlib.BannerIndicatorType;
-import com.cc.bannerlib.BannerTitleType;
-import com.cc.bannerlib.RoundImageView;
-import com.cc.bannerlib.RoundLayout;
+import com.cc.bannerlib.bean.BannerBean;
+import com.cc.bannerlib.listener.BannerClickListener;
+import com.cc.bannerlib.bean.BannerTitleType;
+import com.cc.bannerlib.widget.RoundImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.e(TAG, "position = " + position + ", object = " + bean);
                     }
                 })
-                .setTitleType(BannerTitleType.TITLE_WITH_NUM)
+                .setTitleType(BannerTitleType.TITLE_WITH_CIRCLE)
                 .show();
     }
 

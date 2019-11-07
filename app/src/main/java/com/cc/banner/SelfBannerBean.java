@@ -1,6 +1,6 @@
 package com.cc.banner;
 
-import com.cc.bannerlib.BannerBean;
+import com.cc.bannerlib.bean.BannerBean;
 
 /**
  * Created on 2019-11-05  16:57
