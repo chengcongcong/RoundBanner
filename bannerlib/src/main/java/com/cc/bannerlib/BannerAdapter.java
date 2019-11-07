@@ -14,7 +14,7 @@ import java.util.List;
  * Created on 2019-11-04  15:16
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 public class BannerAdapter extends PagerAdapter {
 

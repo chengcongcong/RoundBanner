@@ -4,7 +4,7 @@ package com.cc.bannerlib;
  * Created on 2019-11-05  17:36
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 public enum BannerIndicatorType {
     //标题导航位置

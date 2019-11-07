@@ -3,11 +3,15 @@ package com.cc.bannerlib;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,27 +25,53 @@ import java.util.List;
  * Created on 2019-11-04  13:48
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 public class Banner extends RelativeLayout {
 
+    /**
+     * 圆角 左上 右上 左下 右下
+     */
     private int corner;
+    /**
+     * 圆角角度
+     */
     private float radius;
+    /**
+     * 边距类型
+     */
     private int marginType;
+    /**
+     * 边距
+     */
     private float marginLeft;
     private float marginRight;
     private float marginLeftAndRight;
     private RoundLayout roundLayout;
-    private ViewPager vpBanner;
+    private BannerViewPager vpBanner;
     private BannerAdapter bannerAdapter;
     private List<RoundImageView> imageViews;
     private List<BannerBean> sourceDatas;
 
+    /**
+     * 当前位置
+     */
     private int currentIndex;
+    /**
+     * 当前显示位置
+     */
     private int currentShowIndex = -1;
+    /**
+     * 只是数据数量
+     */
     private int count;
-
+    /**
+     * 图片加载器
+     */
     private BImageLoader imageLoader;
+    /**
+     * 点击监听
+     */
     private BannerClickListener clickListener;
 
     /**
@@ -53,11 +83,37 @@ public class Banner extends RelativeLayout {
     private LinearLayout llCircleIndicator;
     private TextView tvNumIndicator;
 
+    /**
+     * 标题类型
+     */
     private int titleType;
+    /**
+     * 标题 指示器类型
+     */
     private int titleIndicatorType;
 
+    /**
+     * 标题背景资源id
+     */
     private int titleBgResId;
+    /**
+     * 标题指示器资源id
+     */
     private int titleIndicatorSelectorResId;
+    /**
+     * 是否自动轮播 默认 是
+     */
+    private boolean autoPlay;
+    private AutoPlayHandler autoPlayHandler;
+    /**
+     * 轮播事件间隔 默认 3000 ms
+     */
+    private int autoPlayTime;
+    private boolean isPlaying;
+    /**
+     * 用户能否手动滚动
+     */
+    private boolean canUserScroll;
 
     public Banner(Context context) {
         super(context);
@@ -84,18 +140,25 @@ public class Banner extends RelativeLayout {
         getTypeValue(context, attrs);
         initParams();
         initViews(context);
+        autoPlayHandler = new AutoPlayHandler();
     }
 
+    /**
+     * 初始化一些变量
+     */
     private void initParams() {
         sourceDatas = new ArrayList<>();
         imageViews = new ArrayList<>();
     }
 
+    /**
+     * 初始化视图 监听
+     *
+     * @param context
+     */
     private void initViews(Context context) {
         View rootView = LayoutInflater.from(context).inflate(R.layout.layout_banner, this, true);
         findViews(rootView);
-        roundLayout.setCorner(corner);
-        roundLayout.setRadius(radius);
         initListener();
     }
 
@@ -122,14 +185,24 @@ public class Banner extends RelativeLayout {
                 if (count <= 1) {
                     return;
                 }
+                boolean needPlay;
                 if (currentIndex == 0) {
+                    needPlay = false;
                     vpBanner.setCurrentItem(count, false);
                 } else if (currentIndex == count + 1) {
+                    needPlay = false;
                     vpBanner.setCurrentItem(1, false);
+                } else {
+                    needPlay = true;
                 }
                 currentIndex = position;
                 updateIndicator(getShowPosition());
                 updateTitle(sourceDatas.get(currentIndex).getBannerTitle());
+                if (needPlay) {
+                    Log.e("ccc1107", "onPageSelected = " + position);
+                    isPlaying = false;
+                    startAutoPlay();
+                }
             }
 
             @Override
@@ -164,6 +237,12 @@ public class Banner extends RelativeLayout {
         });
     }
 
+    /**
+     * 获取自定义属性
+     *
+     * @param context
+     * @param attrs
+     */
     private void getTypeValue(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Banner);
         corner = typedArray.getInt(R.styleable.Banner_bCorner, BannerCorner.ALL.getCornerValue());
@@ -177,6 +256,10 @@ public class Banner extends RelativeLayout {
         titleIndicatorType = typedArray.getInt(R.styleable.Banner_bTitleIndicatorType, BannerIndicatorType.GRAVITY_CENTER.getType());
         titleBgResId = typedArray.getResourceId(R.styleable.Banner_bTitleBg, R.drawable.banner_title_bg_shape);
         titleIndicatorSelectorResId = typedArray.getResourceId(R.styleable.Banner_bTitleIndicatorSelector, R.drawable.banner_indicator_selector);
+
+        autoPlay = typedArray.getBoolean(R.styleable.Banner_bAutoPlay, false);
+        autoPlayTime = typedArray.getInt(R.styleable.Banner_bAutoPlayTime, 3000);
+        canUserScroll = typedArray.getBoolean(R.styleable.Banner_bUserScroll, true);
         typedArray.recycle();
     }
 
@@ -344,12 +427,52 @@ public class Banner extends RelativeLayout {
         return this;
     }
 
+    public Banner setAutoPlay(boolean autoPlay) {
+        this.autoPlay = autoPlay;
+        return this;
+    }
+
+    public Banner setAutoPlayTime(int autoPlayTime) {
+        this.autoPlayTime = autoPlayTime;
+        return this;
+    }
+
+    public Banner setCanUserScroll(boolean canUserScroll) {
+        this.canUserScroll = canUserScroll;
+        return this;
+    }
+
     public void show() {
+        setViewParams();
         setMarginUi();
         updateTitleUi();
         initImageViews();
     }
 
+    /**
+     * 设置视图属性 圆角 等
+     */
+    private void setViewParams() {
+        if (roundLayout != null) {
+            roundLayout.setCorner(corner);
+            roundLayout.setRadius(radius);
+        }
+        if (vpBanner != null) {
+            vpBanner.setCanScroll(canUserScroll);
+        }
+    }
+
+    private void startAutoPlay() {
+        if (!isPlaying && count > 1 && autoPlay && autoPlayHandler != null && vpBanner != null) {
+            isPlaying = true;
+            clearHandler();
+            autoPlayHandler.sendEmptyMessageDelayed(1, autoPlayTime);
+        }
+    }
+
+    /**
+     * 更新标题
+     */
     private void updateTitleUi() {
         if (titleType == BannerTitleType.NO_TITLE.getTitleType()) {
             rlTitleParent.setVisibility(GONE);
@@ -423,6 +546,11 @@ public class Banner extends RelativeLayout {
         }
     }
 
+    /**
+     * 根据当前位置 获取 显示位置
+     *
+     * @return
+     */
     private int getShowPosition() {
         int position = 0;
         if (count <= 1) {
@@ -457,6 +585,75 @@ public class Banner extends RelativeLayout {
                 || titleType == BannerTitleType.TITLE_WITH_NUM.getTitleType()
                 || titleType == BannerTitleType.ONLY_TITLE.getTitleType()) {
             tvTitle.setText(title);
+        }
+    }
+
+    public void onDestroy() {
+        if (autoPlayHandler != null) {
+            autoPlayHandler.removeCallbacksAndMessages(null);
+        }
+        autoPlayHandler = null;
+    }
+
+    public void onPause() {
+        isPlaying = false;
+        clearHandler();
+    }
+
+    public void onResume() {
+        startAutoPlay();
+    }
+
+    private void clearHandler() {
+        if (autoPlayHandler != null) {
+            autoPlayHandler.removeCallbacksAndMessages(null);
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (autoPlay && canUserScroll) {
+            int action = ev.getAction();
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    isPlaying = false;
+                    clearHandler();
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_OUTSIDE:
+                    startAutoPlay();
+                    break;
+                default:
+                    break;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private class AutoPlayHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    Log.e("ccc1107", "handleMessage cur = " + currentIndex);
+                    toNext();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void toNext() {
+        if (vpBanner != null) {
+            if (currentIndex == 0 || currentIndex == sourceDatas.size() - 1) {
+                return;
+            }
+            if (currentIndex < sourceDatas.size() - 1) {
+                vpBanner.setCurrentItem(currentIndex + 1, true);
+            }
         }
     }
 

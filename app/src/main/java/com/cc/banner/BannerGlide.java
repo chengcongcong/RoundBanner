@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
  * Created on 2019-11-04  15:42
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 @GlideModule
 public class BannerGlide extends AppGlideModule {

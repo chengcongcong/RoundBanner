@@ -6,7 +6,7 @@ import com.cc.bannerlib.BannerBean;
  * Created on 2019-11-05  16:57
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 public class SelfBannerBean implements BannerBean {
 

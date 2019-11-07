@@ -47,8 +47,11 @@
 
         <attr name="bTitleIndicatorSelector" format="reference"/>
 
+        <attr name="bAutoPlay" format="boolean"/>
+        <attr name="bAutoPlayTime" format="integer"/>
+        <attr name="bUserScroll" format="boolean"/>
     </declare-styleable>
-
+    
     <declare-styleable name="SquareImageView">
         <attr name="imgCorner" format="dimension" />
     </declare-styleable>
