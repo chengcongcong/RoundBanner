@@ -25,6 +25,7 @@ import com.cc.bannerlib.bean.BannerMarginType;
 import com.cc.bannerlib.bean.BannerTitleType;
 import com.cc.bannerlib.listener.BImageLoader;
 import com.cc.bannerlib.listener.BannerClickListener;
+import com.cc.bannerlib.utils.LogUtil;
 import com.cc.bannerlib.utils.SizeUtil;
 import com.cc.bannerlib.widget.BannerAdapter;
 import com.cc.bannerlib.widget.BannerViewPager;
@@ -41,6 +42,8 @@ import java.util.List;
  * @author 644898042@qq.com
  */
 public class Banner extends RelativeLayout {
+
+    private final String TAG = getClass().getSimpleName();
 
     /**
      * 圆角 左上 右上 左下 右下
@@ -212,7 +215,7 @@ public class Banner extends RelativeLayout {
                 updateIndicator(getShowPosition());
                 updateTitle(sourceDatas.get(currentIndex).getBannerTitle());
                 if (needPlay) {
-                    Log.e("ccc1107", "onPageSelected = " + position);
+                    LogUtil.e(TAG, "onPageSelected = " + position);
                     isPlaying = false;
                     startAutoPlay();
                 }
@@ -276,6 +279,9 @@ public class Banner extends RelativeLayout {
         typedArray.recycle();
     }
 
+    /**
+     * 初始化banner adapter 数据
+     */
     private void initImageViews() {
         imageViews.clear();
         if (sourceDatas != null) {
@@ -303,6 +309,10 @@ public class Banner extends RelativeLayout {
         return imageView;
     }
 
+    /**
+     * 根据marginType 设置图片 边距 配合 RoundLayout 实现 margin 和 padding 效果
+     * @param imageView
+     */
     private void setImageMargin(View imageView) {
         if (!(imageView instanceof RoundImageView)) {
             return;
@@ -318,6 +328,11 @@ public class Banner extends RelativeLayout {
         }
     }
 
+    /**
+     * 图片显示
+     * @param imageView
+     * @param bean
+     */
     private void setImage(RoundImageView imageView, BannerBean bean) {
         if (imageLoader != null) {
             imageLoader.displayImage(imageView, bean);
@@ -345,6 +360,9 @@ public class Banner extends RelativeLayout {
         });
     }
 
+    /**
+     * 根据marginType 设置 圆角布局的边距 配合 RoundImageView 实现 margin 和 padding 效果
+     */
     private void setMarginUi() {
         LayoutParams params = (RelativeLayout.LayoutParams) roundLayout.getLayoutParams();
         if (marginType == BannerMarginType.TYPE_MARGIN.getMarginType()) {
@@ -374,6 +392,11 @@ public class Banner extends RelativeLayout {
         return this;
     }
 
+    /**
+     * 设置 数据 对原数据进行处理， 原数据个数大于1 在数据前后各增加一个数据，用于实现 无限循环
+     * @param list
+     * @return
+     */
     public Banner setBannerList(List<BannerBean> list) {
         if (list == null) {
 
@@ -455,6 +478,9 @@ public class Banner extends RelativeLayout {
         return this;
     }
 
+    /**
+     * 显示banner
+     */
     public void show() {
         setViewParams();
         setMarginUi();
@@ -475,6 +501,9 @@ public class Banner extends RelativeLayout {
         }
     }
 
+    /**
+     * 开始轮播
+     */
     private void startAutoPlay() {
         if (!isPlaying && count > 1 && autoPlay && autoPlayHandler != null && vpBanner != null) {
             isPlaying = true;
@@ -532,6 +561,10 @@ public class Banner extends RelativeLayout {
         }
     }
 
+    /**
+     * 设置标题指示器 位置
+     * @param withTitle
+     */
     private void setIndicatorGravity(boolean withTitle) {
         RelativeLayout.LayoutParams params = (LayoutParams) llIndicatorParent.getLayoutParams();
         if (withTitle) {
@@ -548,6 +581,9 @@ public class Banner extends RelativeLayout {
         llIndicatorParent.setLayoutParams(params);
     }
 
+    /**
+     * 初始化圆形指示器
+     */
     private void initCircleIndicator() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         for (int i = 0; i < count; i++) {
@@ -579,6 +615,10 @@ public class Banner extends RelativeLayout {
         return position;
     }
 
+    /**
+     * 更新指示器
+     * @param position
+     */
     private void updateIndicator(int position) {
         if (currentShowIndex == position) {
             return;
@@ -593,6 +633,10 @@ public class Banner extends RelativeLayout {
         }
     }
 
+    /**
+     * 更新标题
+     * @param title
+     */
     private void updateTitle(String title) {
         if (titleType == BannerTitleType.TITLE_WITH_CIRCLE.getTitleType()
                 || titleType == BannerTitleType.TITLE_WITH_NUM.getTitleType()
@@ -617,6 +661,9 @@ public class Banner extends RelativeLayout {
         startAutoPlay();
     }
 
+    /**
+     * 取消轮播
+     */
     private void clearHandler() {
         if (autoPlayHandler != null) {
             autoPlayHandler.removeCallbacksAndMessages(null);
@@ -650,7 +697,7 @@ public class Banner extends RelativeLayout {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    Log.e("ccc1107", "handleMessage cur = " + currentIndex);
+                    LogUtil.e(TAG, "handleMessage cur = " + currentIndex);
                     toNext();
                     break;
                 default:

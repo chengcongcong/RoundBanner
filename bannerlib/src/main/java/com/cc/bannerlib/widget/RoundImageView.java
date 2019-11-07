@@ -14,10 +14,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.cc.bannerlib.bean.BannerCorner;
+import com.cc.bannerlib.utils.LogUtil;
 
 /**
  * Created on 2019-11-05  14:07
- * Description:
+ * Description: 圆角ImageView
  *
  * @author 644898042@qq.com
  */
@@ -86,7 +87,7 @@ public class RoundImageView extends AppCompatImageView {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         roundRect.set(leftMargin, 0, getWidth() - rightMargin, getHeight());
-        Log.e(TAG, "RoundImageView onLayout");
+        LogUtil.e(TAG, "RoundImageView onLayout");
     }
 
     @Override
@@ -131,7 +132,7 @@ public class RoundImageView extends AppCompatImageView {
         }
         super.onDraw(canvas);
         canvas.restore();
-        Log.e(TAG, "RoundImageView onDraw");
+        LogUtil.e(TAG, "RoundImageView onDraw");
     }
 
 }

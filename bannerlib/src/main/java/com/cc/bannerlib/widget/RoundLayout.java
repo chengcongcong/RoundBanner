@@ -16,10 +16,11 @@ import android.widget.RelativeLayout;
 
 import com.cc.bannerlib.R;
 import com.cc.bannerlib.bean.BannerCorner;
+import com.cc.bannerlib.utils.LogUtil;
 
 /**
  * Created on 2019-11-04  11:16
- * Description:
+ * Description: 圆角布局
  *
  * @author 644898042@qq.com
  */
@@ -79,18 +80,18 @@ public class RoundLayout extends RelativeLayout {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         roundRect.set(0, 0, getWidth(), getHeight());
-        Log.e(TAG, "onLayout");
+        LogUtil.e(TAG, "onLayout");
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        Log.e(TAG, "draw");
+        LogUtil.e(TAG, "draw");
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        Log.e(TAG, "dispatchDraw");
+        LogUtil.e(TAG, "dispatchDraw");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             canvas.saveLayer(roundRect, mPaint);
         } else {
