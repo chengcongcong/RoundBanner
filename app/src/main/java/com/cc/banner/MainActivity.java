@@ -1,5 +1,6 @@
 package com.cc.banner;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,12 +25,22 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
 
     private Banner banner;
+    private Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         banner = findViewById(R.id.banner);
+        btn = findViewById(R.id.btn_radius);
+        btn
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                        startActivity(intent);
+                    }
+                });
         testData();
     }
 
@@ -50,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 .setBannerList(bannerList)
                 .setMarginLeftAndRight(10)
                 .setRadius(10)
+                .setAutoPlay(true)
+                .setCanUserScroll(false)
                 .setImageLoader(new BImageLoader() {
                     @Override
                     public void displayImage(RoundImageView imageView, BannerBean bannerBean) {
@@ -62,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.e(TAG, "position = " + position + ", object = " + bean);
                     }
                 })
-                .setTitleType(BannerTitleType.ONLY_TITLE)
+                .setTitleType(BannerTitleType.TITLE_WITH_NUM)
                 .show();
     }
 
@@ -72,5 +85,29 @@ public class MainActivity extends AppCompatActivity {
                 .load(imgBean.getBannerImgUrl())
                 .error(R.mipmap.default_image)
                 .into(image);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (banner != null) {
+            banner.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (banner != null) {
+            banner.onPause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (banner != null) {
+            banner.onDestroy();
+        }
+        super.onDestroy();
     }
 }
