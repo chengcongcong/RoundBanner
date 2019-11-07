@@ -59,8 +59,6 @@ public class Banner extends RelativeLayout {
     private int titleBgResId;
     private int titleIndicatorSelectorResId;
 
-    private int curShowIndex;
-
     public Banner(Context context) {
         super(context);
         init(context, null);
@@ -420,7 +418,7 @@ public class Banner extends RelativeLayout {
             View view = inflater.inflate(R.layout.layout_circle, llCircleIndicator, false);
             view.setBackgroundResource(titleIndicatorSelectorResId);
             currentShowIndex = getShowPosition();
-            view.setSelected(i == curShowIndex);
+            view.setSelected(i == currentShowIndex);
             llCircleIndicator.addView(view);
         }
     }
