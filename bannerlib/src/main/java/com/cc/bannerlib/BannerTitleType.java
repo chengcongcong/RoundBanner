@@ -4,7 +4,7 @@ package com.cc.bannerlib;
  * Created on 2019-11-05  17:28
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 public enum BannerTitleType {
     //标题类型

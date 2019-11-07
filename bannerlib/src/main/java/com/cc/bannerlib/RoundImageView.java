@@ -17,7 +17,7 @@ import android.view.View;
  * Created on 2019-11-05  14:07
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 public class RoundImageView extends AppCompatImageView {
 

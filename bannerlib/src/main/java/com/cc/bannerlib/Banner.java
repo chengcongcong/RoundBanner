@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,13 +25,25 @@ import java.util.List;
  * Created on 2019-11-04  13:48
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 public class Banner extends RelativeLayout {
 
+    /**
+     * 圆角 左上 右上 左下 右下
+     */
     private int corner;
+    /**
+     * 圆角角度
+     */
     private float radius;
+    /**
+     * 边距类型
+     */
     private int marginType;
+    /**
+     * 边距
+     */
     private float marginLeft;
     private float marginRight;
     private float marginLeftAndRight;
@@ -40,11 +53,25 @@ public class Banner extends RelativeLayout {
     private List<RoundImageView> imageViews;
     private List<BannerBean> sourceDatas;
 
+    /**
+     * 当前位置
+     */
     private int currentIndex;
+    /**
+     * 当前显示位置
+     */
     private int currentShowIndex = -1;
+    /**
+     * 只是数据数量
+     */
     private int count;
-
+    /**
+     * 图片加载器
+     */
     private BImageLoader imageLoader;
+    /**
+     * 点击监听
+     */
     private BannerClickListener clickListener;
 
     /**
@@ -56,16 +83,36 @@ public class Banner extends RelativeLayout {
     private LinearLayout llCircleIndicator;
     private TextView tvNumIndicator;
 
+    /**
+     * 标题类型
+     */
     private int titleType;
+    /**
+     * 标题 指示器类型
+     */
     private int titleIndicatorType;
 
+    /**
+     * 标题背景资源id
+     */
     private int titleBgResId;
+    /**
+     * 标题指示器资源id
+     */
     private int titleIndicatorSelectorResId;
-
+    /**
+     * 是否自动轮播 默认 是
+     */
     private boolean autoPlay;
     private AutoPlayHandler autoPlayHandler;
+    /**
+     * 轮播事件间隔 默认 3000 ms
+     */
     private int autoPlayTime;
     private boolean isPlaying;
+    /**
+     * 用户能否手动滚动
+     */
     private boolean canUserScroll;
 
     public Banner(Context context) {
@@ -96,11 +143,19 @@ public class Banner extends RelativeLayout {
         autoPlayHandler = new AutoPlayHandler();
     }
 
+    /**
+     * 初始化一些变量
+     */
     private void initParams() {
         sourceDatas = new ArrayList<>();
         imageViews = new ArrayList<>();
     }
 
+    /**
+     * 初始化视图 监听
+     *
+     * @param context
+     */
     private void initViews(Context context) {
         View rootView = LayoutInflater.from(context).inflate(R.layout.layout_banner, this, true);
         findViews(rootView);
@@ -182,6 +237,12 @@ public class Banner extends RelativeLayout {
         });
     }
 
+    /**
+     * 获取自定义属性
+     *
+     * @param context
+     * @param attrs
+     */
     private void getTypeValue(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Banner);
         corner = typedArray.getInt(R.styleable.Banner_bCorner, BannerCorner.ALL.getCornerValue());
@@ -388,6 +449,9 @@ public class Banner extends RelativeLayout {
         initImageViews();
     }
 
+    /**
+     * 设置视图属性 圆角 等
+     */
     private void setViewParams() {
         if (roundLayout != null) {
             roundLayout.setCorner(corner);
@@ -406,6 +470,9 @@ public class Banner extends RelativeLayout {
         }
     }
 
+    /**
+     * 更新标题
+     */
     private void updateTitleUi() {
         if (titleType == BannerTitleType.NO_TITLE.getTitleType()) {
             rlTitleParent.setVisibility(GONE);
@@ -479,6 +546,11 @@ public class Banner extends RelativeLayout {
         }
     }
 
+    /**
+     * 根据当前位置 获取 显示位置
+     *
+     * @return
+     */
     private int getShowPosition() {
         int position = 0;
         if (count <= 1) {
@@ -536,6 +608,27 @@ public class Banner extends RelativeLayout {
         if (autoPlayHandler != null) {
             autoPlayHandler.removeCallbacksAndMessages(null);
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (autoPlay && canUserScroll) {
+            int action = ev.getAction();
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    isPlaying = false;
+                    clearHandler();
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_OUTSIDE:
+                    startAutoPlay();
+                    break;
+                default:
+                    break;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private class AutoPlayHandler extends Handler {

@@ -11,7 +11,7 @@ import android.view.MotionEvent;
  * Created on 2019-11-07  15:54
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 public class BannerViewPager extends ViewPager {
 

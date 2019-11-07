@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
  * Created on 2019-11-07  15:43
  * Description:
  *
- * @author
+ * @author 644898042@qq.com
  */
 public class SecondActivity extends AppCompatActivity {
 
