@@ -30,7 +30,7 @@
 |名称|类型|描述|备注|
 |-|-|-|-|
 |bRadius|dimension|圆角弧度||
-|bCorner|enum|圆角位置||
+|bCorner|flag|圆角位置||
 |bMarginLeftAndRight|dimension|左右边距||
 |bMarginLeft|dimension|左边距|优先级低于bMarginLeftAndRight|
 |bMarginRight|dimension|右边距|优先级低于bMarginLeftAndRight|
@@ -39,6 +39,7 @@
 |bTitleIndicatorType|enum|标题指示器位置|默认居中|
 |bTitleBg|reference|标题背景||
 |bTitleIndicatorSelector|reference|圆形指示器selector||
+|bTitleHeight|dimension|标题高度|
 |bAutoPlay|boolean|是否自动轮播|默认true|
 |bAutoPlayTime|integer|自动轮播时间间隔（毫秒）|默认3000|
 |bUserScroll|boolean|用户影响轮播|默认true|
@@ -59,6 +60,7 @@
 |Banner setTitleIndicatorType(BannerIndicatorType titleIndicatorType)|设置标题指示器位置||
 |Banner setTitleBgResId(@DrawableRes int titleBgResId)|设置标题背景||
 |Banner setTitleIndicatorSelectorResId(@DrawableRes int titleIndicatorSelectorResId)|设置圆形指示器selector||
+|Banner setTitleHeight(int titleHeightDp)|设置标题高度||
 |Banner setAutoPlay(boolean autoPlay)|设置是否自动轮播||
 |Banner setAutoPlayTime(int autoPlayTime)|设置轮播时间间隔||
 |Banner setCanUserScroll(boolean canUserScroll)|设置用户是否影响轮播||
@@ -79,8 +81,8 @@ maven {
 ```java
 dependencies {
     ...
-    implementation 'com.github.chengcongcong:RoundBanner:v1.0.0'//support版本
-    implementation 'com.github.chengcongcong:RoundBanner:androidx-v1.0.0'//androidx版本
+    implementation 'com.github.chengcongcong:RoundBanner:v1.0.2'//support版本
+    implementation 'com.github.chengcongcong:RoundBanner:androidx-v1.0.2'//androidx版本
 }
 ```
 3.Banner实体类实现BannerBean接口，提供banner image和title
