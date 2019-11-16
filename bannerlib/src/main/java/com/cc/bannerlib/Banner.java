@@ -416,8 +416,8 @@ public class Banner extends RelativeLayout {
         return this;
     }
 
-    public Banner setMarginType(int marginType) {
-        this.marginType = marginType;
+    public Banner setMarginType(BannerMarginType marginType) {
+        this.marginType = marginType.getMarginType();
         return this;
     }
 
