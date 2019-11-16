@@ -96,7 +96,7 @@ public class SettingActivity extends AppCompatActivity {
             case R.id.btn_user_true:
                 bean.setUserType(true);
                 break;
-            case R.id.btn_padding:
+            case R.id.btn_user_false:
                 bean.setUserType(false);
                 break;
         }
