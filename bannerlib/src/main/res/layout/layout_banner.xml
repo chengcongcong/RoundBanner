@@ -9,8 +9,7 @@
         android:id="@+id/vp_banner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        tools:background="#FFCCCC"/>
+        android:overScrollMode="never" />
 
     <RelativeLayout
         android:id="@+id/rl_title_parent"
@@ -22,8 +21,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:background="@drawable/banner_title_bg_shape"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_title"
