@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         banner = findViewById(R.id.banner);
-        btn = findViewById(R.id.btn_radius);
+        btn = findViewById(R.id.btn);
         btn
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
