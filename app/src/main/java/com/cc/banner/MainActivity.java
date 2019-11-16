@@ -1,5 +1,6 @@
 package com.cc.banner;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
     private Button btn;
     private Button btnNotify;
 
+    private StartBean bean;
+
+    public static void launch(Context context, StartBean bean) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("key_bean", bean);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 changeData();
             }
         });
+        bean = (StartBean) getIntent().getSerializableExtra("key_bean");
         testData();
     }
 
@@ -67,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 .setBannerList(bannerList)
                 .setMarginLeftAndRight(10)
                 .setRadius(10)
-                .setAutoPlay(true)
-                .setCanUserScroll(false)
+                .setCorner(bean.getCorner())
                 .setImageLoader(new BImageLoader() {
                     @Override
                     public void displayImage(RoundImageView imageView, BannerBean bannerBean) {
@@ -80,9 +89,23 @@ public class MainActivity extends AppCompatActivity {
                     public void onBannerClick(int position, BannerBean bean) {
                         Log.e(TAG, "position = " + position + ", object = " + bean);
                     }
-                })
-                .setTitleType(BannerTitleType.TITLE_WITH_CIRCLE)
-                .show();
+                });
+        if (bean.getAutoType() != null) {
+            banner.setAutoPlay(bean.getAutoType());
+        }
+        if (bean.getUserType() != null) {
+            banner.setCanUserScroll(bean.getUserType());
+        }
+        if (bean.getTitleType() != null) {
+            banner.setTitleType(bean.getTitleType());
+        }
+        if (bean.getIndicatorType() != null) {
+            banner.setTitleIndicatorType(bean.getIndicatorType());
+        }
+        if (bean.getMarginType() != null) {
+            banner.setMarginType(bean.getMarginType());
+        }
+        banner.show();
     }
 
     private void changeData() {
