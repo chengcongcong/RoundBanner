@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <View
             android:id="@+id/view_title_bg"
