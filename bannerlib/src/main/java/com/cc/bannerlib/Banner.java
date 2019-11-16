@@ -401,6 +401,9 @@ public class Banner extends RelativeLayout {
         if (list == null) {
 
         } else {
+            isPlaying = false;
+            currentIndex = 0;
+            clearHandler();
             sourceDatas.clear();
             sourceDatas.addAll(list);
             count = sourceDatas.size();
@@ -585,6 +588,7 @@ public class Banner extends RelativeLayout {
      * 初始化圆形指示器
      */
     private void initCircleIndicator() {
+        llCircleIndicator.removeAllViews();
         LayoutInflater inflater = LayoutInflater.from(getContext());
         for (int i = 0; i < count; i++) {
             View view = inflater.inflate(R.layout.layout_circle, llCircleIndicator, false);
@@ -668,6 +672,16 @@ public class Banner extends RelativeLayout {
         if (autoPlayHandler != null) {
             autoPlayHandler.removeCallbacksAndMessages(null);
         }
+    }
+
+    /**
+     * 修改数据列表 为空无效
+     * @param dats
+     */
+    public void notifyData(List<BannerBean> dats) {
+        setBannerList(dats);
+        updateTitleUi();
+        initImageViews();
     }
 
     @Override

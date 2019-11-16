@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Banner banner;
     private Button btn;
+    private Button btnNotify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+        btnNotify = findViewById(R.id.btn_notify);
+        btnNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeData();
+            }
+        });
         testData();
     }
 
@@ -76,6 +84,23 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setTitleType(BannerTitleType.TITLE_WITH_CIRCLE)
                 .show();
+    }
+
+    private void changeData() {
+        List<String> list = new ArrayList<>();
+        list.add("https://c-ssl.duitang.com/uploads/blog/201510/22/20151022205355_EWBct.thumb.700_0.jpeg");
+        list.add("https://c-ssl.duitang.com/uploads/blog/201508/30/20150830100906_dPXRQ.thumb.700_0.jpeg");
+        list.add("https://c-ssl.duitang.com/uploads/item/201601/08/20160108211356_hFxUT.thumb.700_0.jpeg");
+        List<BannerBean> bannerList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            SelfBannerBean bean = new SelfBannerBean();
+            bean.setImgUrl(list.get(i));
+            bean.setTitle("banner change" + i);
+            bannerList.add(bean);
+        }
+        if (banner != null) {
+            banner.notifyData(bannerList);
+        }
     }
 
     private void setImage(ImageView image, BannerBean imgBean) {
