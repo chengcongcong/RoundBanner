@@ -5,11 +5,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.RequiresApi;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.RequiresApi;
+import androidx.viewpager.widget.ViewPager;
 
 import com.cc.bannerlib.bean.BannerBean;
 import com.cc.bannerlib.bean.BannerCorner;

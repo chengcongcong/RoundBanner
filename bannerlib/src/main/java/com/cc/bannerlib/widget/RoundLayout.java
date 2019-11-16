@@ -9,10 +9,11 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.RequiresApi;
 
 import com.cc.bannerlib.R;
 import com.cc.bannerlib.bean.BannerCorner;

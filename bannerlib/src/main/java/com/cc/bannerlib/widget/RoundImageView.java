@@ -8,10 +8,10 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.os.Build;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.cc.bannerlib.bean.BannerCorner;
 import com.cc.bannerlib.utils.LogUtil;
