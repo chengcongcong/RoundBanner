@@ -93,11 +93,13 @@ public class Banner extends RelativeLayout {
     /**
      * 标题
      */
-    private RelativeLayout rlTitleParent;
+    private RoundLayout rlTitleParent;
     private TextView tvTitle;
     private LinearLayout llIndicatorParent;
     private LinearLayout llCircleIndicator;
     private TextView tvNumIndicator;
+    private View viewTitleBg;
+    private float titleHeight;
 
     /**
      * 标题类型
@@ -187,6 +189,7 @@ public class Banner extends RelativeLayout {
         llIndicatorParent = rootView.findViewById(R.id.ll_indicator_parent);
         llCircleIndicator = rootView.findViewById(R.id.ll_circle_indicator);
         tvNumIndicator = rootView.findViewById(R.id.tv_num_indicator);
+        viewTitleBg = rootView.findViewById(R.id.view_title_bg);
     }
 
     private void initListener() {
@@ -272,8 +275,9 @@ public class Banner extends RelativeLayout {
         titleIndicatorType = typedArray.getInt(R.styleable.Banner_bTitleIndicatorType, BannerIndicatorType.GRAVITY_CENTER.getType());
         titleBgResId = typedArray.getResourceId(R.styleable.Banner_bTitleBg, R.drawable.banner_title_bg_shape);
         titleIndicatorSelectorResId = typedArray.getResourceId(R.styleable.Banner_bTitleIndicatorSelector, R.drawable.banner_indicator_selector);
+        titleHeight = typedArray.getDimension(R.styleable.Banner_bTitleHeight, SizeUtil.dpToPx(getContext(), 25));
 
-        autoPlay = typedArray.getBoolean(R.styleable.Banner_bAutoPlay, false);
+        autoPlay = typedArray.getBoolean(R.styleable.Banner_bAutoPlay, true);
         autoPlayTime = typedArray.getInt(R.styleable.Banner_bAutoPlayTime, 3000);
         canUserScroll = typedArray.getBoolean(R.styleable.Banner_bUserScroll, true);
         typedArray.recycle();
@@ -311,6 +315,7 @@ public class Banner extends RelativeLayout {
 
     /**
      * 根据marginType 设置图片 边距 配合 RoundLayout 实现 margin 和 padding 效果
+     *
      * @param imageView
      */
     private void setImageMargin(View imageView) {
@@ -330,6 +335,7 @@ public class Banner extends RelativeLayout {
 
     /**
      * 图片显示
+     *
      * @param imageView
      * @param bean
      */
@@ -378,12 +384,41 @@ public class Banner extends RelativeLayout {
             params.rightMargin = 0;
         }
         roundLayout.setLayoutParams(params);
+        setTitleParentMargin();
     }
 
-    public Banner setCorner(BannerCorner corner) {
-        this.corner = corner.getCornerValue();
-        roundLayout.setCorner(corner.getCornerValue());
+    public Banner setCorner(List<BannerCorner> corners) {
+        if (corners == null || corners.size() == 0) {
+            this.corner = BannerCorner.ALL.getCornerValue();
+        } else {
+            for (int i = 0; i < corners.size(); i++) {
+                if (i == 0) {
+                    this.corner = corners.get(i).getCornerValue();
+                } else {
+                    this.corner = this.corner | corners.get(i).getCornerValue();
+                }
+            }
+        }
+        roundLayout.setCorner(this.corner);
         return this;
+    }
+
+    private void setTitleParentCorner() {
+        if (rlTitleParent == null) {
+            return;
+        }
+        if (this.corner == BannerCorner.ALL.getCornerValue() || (this.corner == (BannerCorner.BOTTOM_LEFT.getCornerValue() | BannerCorner.BOTTOM_RIGHT.getCornerValue()))) {
+            rlTitleParent.setCorner(BannerCorner.BOTTOM_LEFT.getCornerValue() | BannerCorner.BOTTOM_RIGHT.getCornerValue());
+            rlTitleParent.setRadius(radius);
+        } else if ((this.corner & BannerCorner.BOTTOM_LEFT.getCornerValue()) == BannerCorner.BOTTOM_LEFT.getCornerValue()) {
+            rlTitleParent.setCorner(BannerCorner.BOTTOM_LEFT.getCornerValue());
+            rlTitleParent.setRadius(radius);
+        } else if ((this.corner & BannerCorner.BOTTOM_RIGHT.getCornerValue()) == BannerCorner.BOTTOM_RIGHT.getCornerValue()) {
+            rlTitleParent.setCorner(BannerCorner.BOTTOM_RIGHT.getCornerValue());
+            rlTitleParent.setRadius(radius);
+        } else {
+            rlTitleParent.setRadius(0);
+        }
     }
 
     public Banner setRadius(int dpValue) {
@@ -394,6 +429,7 @@ public class Banner extends RelativeLayout {
 
     /**
      * 设置 数据 对原数据进行处理， 原数据个数大于1 在数据前后各增加一个数据，用于实现 无限循环
+     *
      * @param list
      * @return
      */
@@ -481,6 +517,11 @@ public class Banner extends RelativeLayout {
         return this;
     }
 
+    public Banner setTitleHeight(int titleHeightDp) {
+        this.titleHeight = SizeUtil.dpToPx(getContext(), titleHeightDp);
+        return this;
+    }
+
     /**
      * 显示banner
      */
@@ -499,6 +540,7 @@ public class Banner extends RelativeLayout {
             roundLayout.setCorner(corner);
             roundLayout.setRadius(radius);
         }
+        setTitleParentCorner();
         if (vpBanner != null) {
             vpBanner.setCanScroll(canUserScroll);
         }
@@ -523,7 +565,7 @@ public class Banner extends RelativeLayout {
             rlTitleParent.setVisibility(GONE);
         } else {
             rlTitleParent.setVisibility(VISIBLE);
-            rlTitleParent.setBackgroundResource(titleBgResId);
+            viewTitleBg.setBackgroundResource(titleBgResId);
             if (titleType == BannerTitleType.ONLY_TITLE.getTitleType()) {
                 llIndicatorParent.setVisibility(GONE);
                 tvTitle.setVisibility(VISIBLE);
@@ -566,6 +608,7 @@ public class Banner extends RelativeLayout {
 
     /**
      * 设置标题指示器 位置
+     *
      * @param withTitle
      */
     private void setIndicatorGravity(boolean withTitle) {
@@ -621,6 +664,7 @@ public class Banner extends RelativeLayout {
 
     /**
      * 更新指示器
+     *
      * @param position
      */
     private void updateIndicator(int position) {
@@ -639,6 +683,7 @@ public class Banner extends RelativeLayout {
 
     /**
      * 更新标题
+     *
      * @param title
      */
     private void updateTitle(String title) {
@@ -646,6 +691,21 @@ public class Banner extends RelativeLayout {
                 || titleType == BannerTitleType.TITLE_WITH_NUM.getTitleType()
                 || titleType == BannerTitleType.ONLY_TITLE.getTitleType()) {
             tvTitle.setText(title);
+        }
+    }
+
+    private void setTitleParentMargin() {
+        if (rlTitleParent != null) {
+            RelativeLayout.LayoutParams params = (LayoutParams) rlTitleParent.getLayoutParams();
+            if (marginType == BannerMarginType.TYPE_PADDING.getMarginType()) {
+                params.leftMargin = (int) (marginLeftAndRight == 0 ? marginLeft : marginLeftAndRight);
+                params.rightMargin = (int) (marginLeftAndRight == 0 ? marginRight : marginLeftAndRight);
+            } else {
+                params.leftMargin = (0);
+                params.rightMargin = (0);
+            }
+            params.height = (int) titleHeight;
+            rlTitleParent.setLayoutParams(params);
         }
     }
 
@@ -676,6 +736,7 @@ public class Banner extends RelativeLayout {
 
     /**
      * 修改数据列表 为空无效
+     *
      * @param dats
      */
     public void notifyData(List<BannerBean> dats) {

@@ -44,6 +44,7 @@
         </attr>
 
         <attr name="bTitleBg" format="reference"/>
+        <attr name="bTitleHeight" format="dimension"/>
 
         <attr name="bTitleIndicatorSelector" format="reference"/>
 

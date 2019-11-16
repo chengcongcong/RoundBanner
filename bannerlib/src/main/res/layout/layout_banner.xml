@@ -11,17 +11,19 @@
         android:layout_height="match_parent"
         android:overScrollMode="never" />
 
-    <RelativeLayout
+    <com.cc.bannerlib.widget.RoundLayout
         android:id="@+id/rl_title_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_alignParentBottom="true"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="@drawable/banner_title_bg_shape"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:id="@+id/view_title_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/banner_title_bg_shape"/>
 
         <TextView
             android:id="@+id/tv_title"
@@ -30,6 +32,8 @@
             android:orientation="horizontal"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/ll_indicator_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:singleLine="true"
             android:textSize="14sp"
             android:textColor="#FFFFFF"
@@ -47,6 +51,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -72,6 +77,6 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </com.cc.bannerlib.widget.RoundLayout>
 
 </com.cc.bannerlib.widget.RoundLayout>
