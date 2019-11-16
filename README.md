@@ -1,12 +1,12 @@
 # RoundBanner
 
-##效果
-![效果图](/home/app/1.jpg)
+## 效果
+![效果图](/app/1.jpg)
 
-##app体验
+## app体验
 [下载链接](https://www.pgyer.com/SADw) 密码：rb1234
 
-##常量
+## 常量
 |名称|描述|方法|备注|
 |-|-|-|-|
 |BannerCorner.TOP_LEFT|圆角位置-左上|setCorner||
@@ -26,7 +26,7 @@
 |BannerIndicatorType.GRAVITY_LEFT|指示器居左|setTitleIndicatorType| |
 |BannerIndicatorType.GRAVITY_RIGHT|指示器居右|setTitleIndicatorType|||
 
-##属性
+## 属性
 |名称|类型|描述|备注|
 |-|-|-|-|
 |bRadius|dimension|圆角弧度||
@@ -43,9 +43,9 @@
 |bAutoPlayTime|integer|自动轮播时间间隔（毫秒）|默认3000|
 |bUserScroll|boolean|用户影响轮播|默认true|
 
-##方法
+## 方法
 |名称|描述|备注|
-|-|-|
+|-|-|-|
 |Banner setBannerList(List<BannerBean> list)|设置源数据||
 |Banner setClickListener(BannerClickListener clickListener)|设置banner点击监听||
 |Banner setImageLoader(BImageLoader imageLoader)|设置图片加载器|外部实现|
@@ -68,7 +68,7 @@
 |void onResume()|继续轮播|如果能轮播的话|
 |void onDestroy()|destroy|||
 
-##使用步骤
+## 使用步骤
 1.项目build.gradle 添加代码
 ```java
 maven {
@@ -79,7 +79,7 @@ maven {
 ```java
 dependencies {
     ...
-	implementation 'com.github.chengcongcong:RoundBanner:v1.0.0'//support版本
+    implementation 'com.github.chengcongcong:RoundBanner:v1.0.0'//support版本
     implementation 'com.github.chengcongcong:RoundBanner:androidx-v1.0.0'//androidx版本
 }
 ```
