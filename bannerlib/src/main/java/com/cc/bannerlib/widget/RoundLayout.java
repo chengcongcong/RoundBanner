@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.RequiresApi;
@@ -75,6 +76,7 @@ public class RoundLayout extends RelativeLayout {
         mSecondPaint = new Paint();
         mSecondPaint.setAntiAlias(true);
         mSecondPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
 
     @Override
