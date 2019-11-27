@@ -72,9 +72,6 @@ public class RoundImageView extends AppCompatImageView {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        if (Build.VERSION.SDK_INT < 18) {
-            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
         roundRect = new RectF();
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
