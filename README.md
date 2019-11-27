@@ -81,8 +81,8 @@ maven {
 ```java
 dependencies {
     ...
-    implementation 'com.github.chengcongcong:RoundBanner:v1.0.2'//support版本
-    implementation 'com.github.chengcongcong:RoundBanner:androidx-v1.0.2'//androidx版本
+    implementation 'com.github.chengcongcong:RoundBanner:v1.0.3'//support版本
+    implementation 'com.github.chengcongcong:RoundBanner:androidx-v1.0.3'//androidx版本
 }
 ```
 3.Banner实体类实现BannerBean接口，提供banner image和title
