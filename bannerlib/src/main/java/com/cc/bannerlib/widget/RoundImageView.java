@@ -81,6 +81,7 @@ public class RoundImageView extends AppCompatImageView {
         mSecondPaint = new Paint();
         mSecondPaint.setAntiAlias(true);
         mSecondPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
 
     @Override
